@@ -40,6 +40,8 @@ class Content extends Model
     public const FILE = 'file';
     public const DIRECTORY = 'dir';
 
+    protected $dateFormat = 'U';
+
     protected $fillable = [
         'mimetype',
         'path',

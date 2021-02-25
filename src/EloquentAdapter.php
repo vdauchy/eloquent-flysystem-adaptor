@@ -4,6 +4,7 @@ declare(strict_types=1);
 
 namespace VDauchy\EloquentFlysystemAdaptor;
 
+use Closure;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Support\Facades\DB;
 use League\Flysystem\Adapter\AbstractAdapter;
@@ -32,11 +33,27 @@ class EloquentAdapter extends AbstractAdapter implements AdapterInterface
     private Content $model;
 
     /**
-     * @param  string  $model
+     * @var Closure
      */
-    public function __construct(string $model = Content::class)
+    private Closure $getUrl;
+
+    /**
+     * @param  string  $model
+     * @param  callable|null  $getUrl
+     */
+    public function __construct(string $model = Content::class, ?callable $getUrl = null)
     {
         $this->model = new $model();
+        $this->getUrl = Closure::fromCallable($getUrl ?? fn (string $path, array $metadata): string => $path);
+    }
+
+    /**
+     * @param  string  $path
+     * @return string
+     */
+    public function getUrl(string $path): string
+    {
+        return ($this->getUrl)($path, $this->getMetadata($path) ?: []);
     }
 
     /**
@@ -349,10 +366,11 @@ class EloquentAdapter extends AbstractAdapter implements AdapterInterface
         $this
             ->contents()
             ->firstOrCreate([
+                'path' => $this->applyPathPrefix($dirname),
+            ], [
                 'created_at' => $config->get('timestamp', time()),
                 'is_file' => false,
                 'is_public' => ($config->get('visibility', Content::PUBLIC) === Content::PUBLIC),
-                'path' => $this->applyPathPrefix($dirname),
                 'updated_at' => $config->get('timestamp', time()),
             ]);
 

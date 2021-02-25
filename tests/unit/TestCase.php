@@ -8,7 +8,6 @@ use CreateContentsTable;
 use Illuminate\Foundation\Application;
 use VDauchy\EloquentFlysystemAdaptor\ServiceProvider;
 use VDauchy\SqlAnalyzer\frameworks\laravel\HasSqlAnalyzer;
-use VDauchy\SqlAnalyzer\frameworks\laravel\ServiceProvider as SqlAnalyzerServiceProvider;
 
 abstract class TestCase extends \Orchestra\Testbench\TestCase
 {
@@ -58,7 +57,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     protected function getPackageProviders($app)
     {
         return array_merge(parent::getPackageProviders($app), [
-            ServiceProvider::class
+            ServiceProvider::class,
         ]);
     }
 }

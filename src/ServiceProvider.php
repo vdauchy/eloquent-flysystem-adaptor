@@ -4,15 +4,21 @@ declare(strict_types=1);
 
 namespace VDauchy\EloquentFlysystemAdaptor;
 
+use Illuminate\Contracts\Foundation\Application;
 use Illuminate\Database\Grammar;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Database\Schema\ColumnDefinition;
+use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Fluent;
+use League\Flysystem\Filesystem;
 use Spatie\LaravelPackageTools\Package;
 use Spatie\LaravelPackageTools\PackageServiceProvider;
+use VDauchy\EloquentFlysystemAdaptor\models\Content;
 
 class ServiceProvider extends PackageServiceProvider
 {
+    public const DRIVER = 'eloquent';
+
     public function packageRegistered(): void
     {
         Grammar::macro('typeSizeableBinary', function (Fluent $column) {
@@ -38,6 +44,22 @@ class ServiceProvider extends PackageServiceProvider
         });
     }
 
+    public function packageBooted()
+    {
+        Storage::extend(
+            self::DRIVER,
+            fn (Application $app, array $config): Filesystem => new Filesystem(
+                new EloquentAdapter(
+                    $config['model'] ?? Content::class,
+                    $config['getUrl'] ?? null,
+                ),
+            ),
+        );
+    }
+
+    /**
+     * @param  Package  $package
+     */
     public function configurePackage(Package $package): void
     {
         $package
