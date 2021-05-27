@@ -44,7 +44,7 @@ class EloquentAdapter extends AbstractAdapter implements AdapterInterface
     public function __construct(string $model = Content::class, ?callable $getUrl = null)
     {
         $this->model = new $model();
-        $this->getUrl = Closure::fromCallable($getUrl ?? fn (string $path, array $metadata): string => $path);
+        $this->getUrl = Closure::fromCallable($getUrl ?? [$model, 'getUrl']);
     }
 
     /**

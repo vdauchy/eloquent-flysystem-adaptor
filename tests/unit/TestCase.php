@@ -46,6 +46,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
                 'prefix' => '',
             ],
         ]);
+        $app['config']->set('app.key', 'base64:rcVf7XUqs5oR0u3rvPs6DDZpd3nQCaza0gFVqZciUJk=');
     }
 
     /**

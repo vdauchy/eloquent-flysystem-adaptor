@@ -76,13 +76,32 @@ class Content extends Model
         'updated_at',
     ];
 
+    /**
+     * @param  string  $path
+     * @param  array|null  $metadata
+     * @return string
+     */
+    public static function getUrl(string $path, ?array $metadata): string
+    {
+        return $path;
+    }
+
     public static function boot(): void
     {
         parent::boot();
 
         static::creating(function (Content $file): void {
-            $file->uuid ??= Uuid::uuid4();
+            $file->uuid ??= Uuid::uuid6();
         });
+    }
+
+    /**
+     * @param  string  $uuid
+     * @return static
+     */
+    public static function fromUuid(string $uuid): self
+    {
+        return static::where('uuid', Uuid::fromString($uuid)->getBytes())->firstOrFail();
     }
 
     /**

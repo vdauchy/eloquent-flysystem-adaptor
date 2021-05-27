@@ -13,8 +13,8 @@ return [
             'driver' => 'eloquent',
             /* Optional: Set your custom model that extends the base Model to use different tables per disk */
             'model' => CustomContentModel::class,
-            /* Optional: Set a custom callable to generate urls pointing to a controller able to render the file */
-            'getUrl' => [CustomContentModel::class, 'getPath']
+            /* Optional: Set a custom callable to generate urls pointing to a controller able to render the file (or overwrite the static method 'getUrl()') */
+            'getUrl' => [CustomContentModel::class, 'getSomeCustomUrl']
         ]   
     ]
 ];
@@ -28,7 +28,7 @@ class CustomContentModel extends Content
     /**
      * Example of method used to resolve the path.
      */
-    static public function getPath(string $path, ?array $metadata): string
+    static public function getSomeCustomUrl(string $path, ?array $metadata): string
     {
         return route('my.content', ['uuid' => $metadata['uuid']]);
     }

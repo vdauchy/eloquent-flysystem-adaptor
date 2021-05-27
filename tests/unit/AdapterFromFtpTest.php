@@ -11,6 +11,8 @@ use Ramsey\Uuid\UuidInterface;
 use VDauchy\EloquentFlysystemAdaptor\EloquentAdapter;
 
 /**
+ * Based on FtpIntegrationTestCase:
+ *
  * @see https://github.com/thephpleague/flysystem/blob/1.x/tests/ftp/FtpIntegrationTestCase.php
  */
 class AdapterFromFtpTest extends TestCase

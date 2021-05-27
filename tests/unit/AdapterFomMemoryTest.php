@@ -10,6 +10,8 @@ use Ramsey\Uuid\UuidInterface;
 use VDauchy\EloquentFlysystemAdaptor\EloquentAdapter;
 
 /**
+ * Based on MemoryAdapterTest:
+ *
  * @see https://github.com/thephpleague/flysystem-memory/blob/master/tests/MemoryAdapterTest.php
  */
 class AdapterFomMemoryTest extends TestCase
