@@ -2,6 +2,39 @@
 
 This package is an Adaptor for Flysystem using Laravel's ORM (Eloquent).
 
+In `config\filesystems.php` add your new disk as:
+
+```php
+return [
+    'disks' => [
+        /* Name your disk as you wish */
+        'my_sql_disk' => [
+            /* Use 'eloquent' driver that is registered by this package. */
+            'driver' => 'eloquent',
+            /* Optional: Set your custom model that extends the base Model to use different tables per disk */
+            'model' => CustomContentModel::class,
+            /* Optional: Set a custom callable to generate urls pointing to a controller able to render the file */
+            'getUrl' => [CustomContentModel::class, 'getPath']
+        ]   
+    ]
+];
+```
+
+```php 
+use VDauchy\EloquentFlysystemAdaptor\models\Content;
+
+class CustomContentModel extends Content 
+{
+    /**
+     * Example of method used to resolve the path.
+     */
+    static public function getPath(string $path, ?array $metadata): string
+    {
+        return route('my.content', ['uuid' => $metadata['uuid']]);
+    }
+}
+```
+
 ***Maintenance***
 
 Here are the steps to develop/test this package using docker.
