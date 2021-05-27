@@ -22,7 +22,7 @@ abstract class TestCase extends \Orchestra\Testbench\TestCase
     {
         parent::setUp();
 
-        include_once __DIR__ . '/../../src/database/migrations/create_contents_table.php.stub';
+        include_once __DIR__ . '/../../database/migrations/create_contents_table.php.stub';
         (new CreateContentsTable())->up();
 
         $this->analyzerSetUp();
