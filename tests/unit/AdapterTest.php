@@ -93,7 +93,7 @@ class AdapterTest extends TestCase
                 $content = Content::fromUuid($uuid);
                 return response($content->contents, 200, ['Content-Type' => $content->mimetype]);
         })
-            ->where('uuid', '(.+)')
+            ->where('uuid', '^[a-z0-9\-]{36}$')
             ->name('content');
     }
 }

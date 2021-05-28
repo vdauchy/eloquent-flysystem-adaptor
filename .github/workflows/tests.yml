@@ -19,7 +19,7 @@ jobs:
           - laravel: 8.*
         test-type: [lint, unit, fmt]
 
-    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.test-type }} test
+    name: PHP ${{ matrix.php }} - Laravel ${{ matrix.laravel }} - ${{ matrix.dependency-version }} - ${{ matrix.test-type }}
 
     steps:
       - name: Update apt
